@@ -270,3 +270,4 @@ $RECYCLE.BIN/
 gen
 
 .eslintignore
+*.sqlite3
