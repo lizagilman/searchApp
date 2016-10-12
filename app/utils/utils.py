@@ -8,9 +8,7 @@ import pprintpp
 def get_words(song_url):
     song = getSong(song_url)
     words = unique_list(song['text'].split())
-    filtered_words = []
-    for word in words:
-        filtered_words.append(filter_word(word))
+    filtered_words = [filter_word(word) for word in words]
     return filtered_words
 
 def unique_list(text):
@@ -38,7 +36,7 @@ def getSong(url):
     chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
     # drop blank lines
     text = '\n'.join(chunk for chunk in chunks if chunk)
-    PRINT='Print'
+    PRINT = 'Print'
     NEW_LINE = '\n'
     print_str_index = text.find(PRINT)
     text = text[print_str_index+len(PRINT)+1:]
@@ -62,3 +60,8 @@ def getSong(url):
     return {'name': song_name, 'artist': artist, 'text': text}
 
 
+def is_in_song(song, word):
+    if(word in song):
+        return True
+    else:
+        return False

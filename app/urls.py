@@ -4,7 +4,7 @@ from rest_framework_extensions.routers import ExtendedDefaultRouter
 from app.viewsets.document_viewset import DocumentViewSet
 from app.viewsets.word_viewset import WordViewSet
 from app.viewsets.index_of_words_viewset import IndexOfWordViewSet
-
+from app.apiviews.get_documents_containing_words import GetDocumentsContainingWords
 from app.views import IndexView
 
 
@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^index/', IndexView.as_view(), name='index'),
     url(r'apis/', include(router.urls)),
+    url(r'get_documents/', GetDocumentsContainingWords.as_view(),name='get_documents'),
 ]
