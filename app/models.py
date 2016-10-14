@@ -2,11 +2,13 @@ from django.db import models
 
 # Create your models here
 
+
+
 class Document(models.Model):
     name = models.CharField(max_length=250, null=True)
     artist = models.CharField(max_length=250, null=True)
     text = models.CharField(max_length=5000000, null=True)
-    words = models.ManyToManyField('Word')
+    words = models.ManyToManyField('Word',)
     is_deleted = models.BooleanField(default=False)
 
     # def __str__(self):
@@ -33,6 +35,7 @@ class Index_of_word(models.Model):
     document = models.ForeignKey('Document', related_name='Document')
     word = models.ForeignKey('Word', related_name='word')
     index_in_document = models.IntegerField(null=True)
+    # index_in_document = models.CommaSeparatedIntegerField(max_length=300)
     is_stop_word = models.BooleanField(default=False)
 
     # def __str__(self):
