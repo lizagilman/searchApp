@@ -65,3 +65,7 @@ def is_in_song(song, word):
         return True
     else:
         return False
+
+
+def do_something():
+    print "hello world"
