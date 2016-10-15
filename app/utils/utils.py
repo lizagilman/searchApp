@@ -74,9 +74,13 @@ def add_song_to_db(document):
     #add document to Document table if it not exsist
     document_old =  Document.objects.filter(name=document['name'], artist=document['artist'],text=document['text'])
     if(document_old.count() == 0):
-      newDocument = Document(name=document['name'], artist=document['artist'],text=document['text'],is_deleted=False)
-      newDocument.save()
-
+      new_document = Document(name=document['name'], artist=document['artist'],text=document['text'],is_deleted=False)
+      new_document.save()
+      text = document['text']
+      words = text.split()
+      for word in words:
+            print word
+      print text
       print "Document added succeed"
     else:
         # todo put is_deleted to False
