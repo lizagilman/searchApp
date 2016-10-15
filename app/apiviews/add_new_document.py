@@ -9,5 +9,5 @@ class AddNewDocument(APIView):
     def get(self, request):
         url = request.query_params['url']
         document = get_song(url)
-        pprintpp.pprint( document)
+        add_song_to_db(document)
         return Response("success")
