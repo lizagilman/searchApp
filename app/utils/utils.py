@@ -2,7 +2,7 @@ import re
 import urllib
 from bs4 import BeautifulSoup
 import pprintpp
-from app.models import Document, Index_of_word
+from app.models import Document, Index_of_word,Word
 # get all words (only alphabetic chars, without repetitions
 def get_song(song_url):
     song = getSong(song_url)
@@ -78,10 +78,21 @@ def add_song_to_db(document):
       new_document.save()
       text = document['text']
       words = text.split()
+      index = 0
       for word in words:
-            print word
+          print index
+          index += add_word_to_db(word,document,index)
       print text
       print "Document added succeed"
     else:
         # todo put is_deleted to False
         print "Document already exist"
+
+def add_word_to_db(word,document,index):
+    length_of_word = len(word)
+    word_test = Word.objects.filter(wordStr=word)
+    if(word_test.count() == 0):
+        new_word = Word(wordStr=word, length=length_of_word)
+        new_word.save()
+    print word
+    return length_of_word + 1
