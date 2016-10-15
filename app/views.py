@@ -14,7 +14,6 @@ class IndexView(TemplateView):
         return super(IndexView, self).dispatch(*args, **kwargs)
 
 
-
 def testView(request):
     do_something() # prints hello world
     template = loader.get_template('testHtml.html')

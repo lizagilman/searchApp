@@ -5,11 +5,12 @@ import pprintpp
 
 
 # get all words (only alphabetic chars, without repetitions
-def get_words(song_url):
+def get_song(song_url):
     song = getSong(song_url)
     words = unique_list(song['text'].split())
     filtered_words = [filter_word(word) for word in words]
-    return filtered_words
+    song['filtered_words'] = filtered_words
+    return song
 
 def unique_list(text):
     unique_list = []
