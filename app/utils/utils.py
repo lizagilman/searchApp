@@ -80,9 +80,7 @@ def add_song_to_db(document):
       words = text.split()
       index = 0
       for word in words:
-          print index
           index += add_word_to_db(word,document,index)
-      print text
       print "Document added succeed"
     else:
         # todo put is_deleted to False
@@ -90,9 +88,28 @@ def add_song_to_db(document):
 
 def add_word_to_db(word,document,index):
     length_of_word = len(word)
+    if(word_need_to_clean(word,True)):
+        word = word[1:]
+    if (word_need_to_clean(word,False)):
+        word = word[:len(word)-1]
     word_test = Word.objects.filter(wordStr=word)
     if(word_test.count() == 0):
         new_word = Word(wordStr=word, length=length_of_word)
         new_word.save()
-    print word
     return length_of_word + 1
+
+
+def word_need_to_clean(word,start):
+    index = -1
+    if (start == True):
+        index = 0
+    else:
+        index = len(word) - 1
+
+    if (word[index] == "," or word[index] == "." or word[index] == "'" or word[index] == "(" or word[index] == ")" ):
+        return True
+    else:
+        return False
+
+
+
