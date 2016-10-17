@@ -74,18 +74,19 @@ def clear_db():
     Document.objects.all().delete()
     Word.objects.all().delete()
     Index_of_word.objects.all().delete()
+    print "DB cleaning succeed"
 
 def add_song_to_db(document):
     #add document to Document table if it not exsist
-    document_old =  Document.objects.filter(name=document['name'], artist=document['artist'],text=document['text'])
-    if(document_old.count() == 0):
-      new_document = Document(name=document['name'], artist=document['artist'],text=document['text'],is_deleted=False)
-      new_document.save()
+    document_to_add =  Document.objects.filter(name=document['name'], artist=document['artist'],text=document['text'])
+    if(document_to_add.count() == 0):
+      document_to_add = Document(name=document['name'], artist=document['artist'],text=document['text'],is_deleted=False)
+      document_to_add.save()
       text = document['text']
       words = text.split()
       index = 0
       for word in words:
-          index += add_word_to_db(word,document,index)
+          index += add_word_to_db(word,document_to_add,index)
       print "Document added succeed"
     else:
         # todo put is_deleted to False
@@ -97,10 +98,14 @@ def add_word_to_db(word,document,index):
         word = word[1:]
     if (word_need_to_clean(word,False)):
         word = word[:len(word)-1]
-    word_test = Word.objects.filter(wordStr=word)
-    if(word_test.count() == 0):
-        new_word = Word(wordStr=word, length=length_of_word)
-        new_word.save()
+    try:
+        word_to_add = Word.objects.get(wordStr=word)
+    except Word.DoesNotExist:
+        word_to_add = Word(wordStr=word, length=length_of_word)
+        word_to_add.save()
+        word_to_add = Word.objects.get(wordStr=word)
+    index_of_word = Index_of_word(document=document,word=word_to_add,index_in_document=index)
+    index_of_word.save()
     return length_of_word + 1
 
 
