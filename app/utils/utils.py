@@ -70,6 +70,11 @@ def is_in_song(song, word):
 def do_something():
     print "hello world"
 
+def clear_db():
+    Document.objects.all().delete()
+    Word.objects.all().delete()
+    Index_of_word.objects.all().delete()
+
 def add_song_to_db(document):
     #add document to Document table if it not exsist
     document_old =  Document.objects.filter(name=document['name'], artist=document['artist'],text=document['text'])
