@@ -1,21 +1,24 @@
-
 <html>
     <head>
         <meta charset="UTF-8">
         <title>Search App</title>
-
         <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
-
-        <!-- Stylesheets -->
+        {% include 'javascripts.html' %}
         {% include 'stylesheets.html' %}
-
-
-
     </head>
     <body>
-
-        <div id="app"><h1>Hello world</h1></div>
-        <!-- Javascript -->
-        {% include 'javascripts.html' %}
+         <div ng-app="myApp" ng-controller="myCtrl">
+        First Name: <input type="text" ng-model="firstName"><br>
+        Last Name:  <input type="text" ng-model="lastName"><br>
+        <br>
+        Full Name: {{firstName }} {{ lastName}}
+        </div>
+        <script>
+            var app = angular.module('myApp', []);
+            app.controller('myCtrl', function($scope) {
+                $scope.firstName= "John";
+                $scope.lastName= "Doe";
+            });
+        </script>
     </body>
 </html>
