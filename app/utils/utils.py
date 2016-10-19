@@ -121,5 +121,11 @@ def word_need_to_clean(word,start):
     else:
         return False
 
+def find_word(word):
+    word = word.lower()
+    print "word:"
+    print word
+    word = Word.objects.filter(wordStr=word)
+    return Index_of_word.objects.filter(word=word)
 
 

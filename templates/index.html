@@ -7,22 +7,18 @@
         {% include 'stylesheets.html' %}
     </head>
     <body>
-         <div ng-app="myApp" ng-controller="myCtrl">
-        First Name: <input type="text" ng-model="firstName"><br>
-        Last Name:  <input type="text" ng-model="lastName"><br>
+        <div ng-app="myApp" ng-controller="myCtrl">
+            Add url:<input type="text" ng-model="urlToAdd">   <button ng-click="addUrlToDb()">Add url</button>
+            <br>
+            Search: <input type="text" ng-model="searchStr">  <button ng-click="search()">Search!</button>
         <br>
-        Full Name: {$ firstName $} {$ lastName $}
+        Result :
+            <div ng-repeat="result in searchResult">
+                {$ result.name $}
+                {$ result.artist $}
+                {$ result.text $}
+            </div>
         </div>
-        <script>
-            var app = angular.module('myApp', []).config(function($interpolateProvider) {
-                $interpolateProvider.startSymbol('{$');
-                $interpolateProvider.endSymbol('$}');
-            });
-            app.controller('myCtrl', function ($scope) {
-                $scope.firstName = "John";
-                $scope.lastName = "Doe";
-            });
 
-        </script>
     </body>
 </html>

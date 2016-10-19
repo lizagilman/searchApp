@@ -7,6 +7,7 @@ from app.viewsets.index_of_words_viewset import IndexOfWordViewSet
 from app.apiviews.get_documents_containing_words import GetDocumentsContainingWords
 from app.apiviews.add_new_document import AddNewDocument
 from app.apiviews.cleaning_db import CleaningDb
+from app.apiviews.search_query import SearchQuery
 from app.views import IndexView
 from app import views
 
@@ -30,4 +31,6 @@ urlpatterns = [
     url(r'get_documents/', GetDocumentsContainingWords.as_view(),name='get_documents'),
     url(r'add_new_doc/', AddNewDocument.as_view(),name='add_new_doc'),
     url(r'cleaning_db/', CleaningDb.as_view(), name='cleaning_db'),
+    url(r'search_query/',SearchQuery.as_view(), name='seartch_query'),
+
 ]
