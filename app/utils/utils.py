@@ -3,6 +3,7 @@ import urllib
 from bs4 import BeautifulSoup
 import pprintpp
 from app.models import Document, Index_of_word,Word
+import json
 # get all words (only alphabetic chars, without repetitions
 def get_song(song_url):
     song = getSong(song_url)
@@ -123,9 +124,17 @@ def word_need_to_clean(word,start):
 
 def find_word(word):
     word = word.lower()
-    print "word:"
-    print word
     word = Word.objects.filter(wordStr=word)
-    return Index_of_word.objects.filter(word=word)
-
+    wordSearchResult = Index_of_word.objects.filter(word=word)
+    result = []
+    index = 0
+    for searchResult in wordSearchResult:
+        print "ok"
+        print searchResult.word
+        print searchResult.document
+        print searchResult.index_in_document
+        result.insert(index,'{"songName":"'+searchResult.document.name +'", "artist":"'+searchResult.document.artist + '", "index_in_document":"'+str(searchResult.index_in_document)+'"}')
+        index += 1
+    print result
+    return result
 

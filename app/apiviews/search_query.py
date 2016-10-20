@@ -9,4 +9,5 @@ class SearchQuery(APIView):
     def get(self, request):
         query = request.query_params['query']
         search = find_word(query)
-        return Response(query)
+        result =  json.dumps(search)
+        return Response(result)

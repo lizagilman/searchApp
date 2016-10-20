@@ -9,7 +9,13 @@ app.controller('myCtrl', function ($scope,$http) {
     $scope.urlToAdd = "";
     $scope.search = function () {
         $http.get("../search_query/?query="+$scope.searchStr).success(function (data) {
-              console.log(data);
+            $scope.searchResult = [];
+           var searchResults = JSON.parse(data);
+            console.log(searchResults);
+            angular.forEach(searchResults, function (searchResult) {
+                console.log(searchResult);
+                $scope.searchResult.push(JSON.parse(searchResult));
+            });
         });
     };
 
@@ -18,17 +24,6 @@ app.controller('myCtrl', function ($scope,$http) {
               console.log(data);
           });
     };
-
-    $scope.searchResult.push({
-          name:"Crawling",
-          artist:"linkin park",
-          text:"qqqqqqqqqqqqqqqqqqfewrg regerg"
-      });
-    $scope.searchResult.push({
-            name: "Crawling 2",
-            artist: "linkin park",
-            text: "qqqqqqqqqqqqqqqqfdsfvbqqfewrg"
-        }
-    );
+    
     console.log($scope.searchResult);
 });
