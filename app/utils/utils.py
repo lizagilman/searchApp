@@ -122,19 +122,25 @@ def word_need_to_clean(word,start):
     else:
         return False
 
-def find_word(word):
+def find_one_word(word):  #function for search one word
     word = word.lower()
     word = Word.objects.filter(wordStr=word)
-    wordSearchResult = Index_of_word.objects.filter(word=word)
+    word_search_result = Index_of_word.objects.filter(word=word)
     result = []
     index = 0
-    for searchResult in wordSearchResult:
-        print "ok"
-        print searchResult.word
-        print searchResult.document
-        print searchResult.index_in_document
+    for searchResult in word_search_result:
         result.insert(index,'{"songName":"'+searchResult.document.name +'", "artist":"'+searchResult.document.artist + '", "index_in_document":"'+str(searchResult.index_in_document)+'"}')
         index += 1
-    print result
     return result
 
+def find_or_words(search_query_array): #function for search N or words
+    result = []
+    index = 0
+    for word in search_query_array:
+        word = word.lower()
+        word = Word.objects.filter(wordStr=word)
+        word_search_result = Index_of_word.objects.filter(word=word)
+        for searchResult in word_search_result:
+            result.insert(index,'{"songName":"' + searchResult.document.name + '", "artist":"' + searchResult.document.artist + '", "index_in_document":"' + str(searchResult.index_in_document) + '"}')
+            index += 1
+    return result

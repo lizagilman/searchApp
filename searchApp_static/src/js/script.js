@@ -9,6 +9,7 @@ app.controller('myCtrl', function ($scope,$http) {
     $scope.urlToAdd = "";
     $scope.search = function () {
         $http.get("../search_query/?query="+$scope.searchStr).success(function (data) {
+            console.log(data);
             $scope.searchResult = [];
            var searchResults = JSON.parse(data);
             console.log(searchResults);
@@ -24,6 +25,6 @@ app.controller('myCtrl', function ($scope,$http) {
               console.log(data);
           });
     };
-    
+
     console.log($scope.searchResult);
 });
