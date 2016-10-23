@@ -128,9 +128,12 @@ def find_one_word(word):  #function for search one word
     word_search_result = Index_of_word.objects.filter(word=word)
     result = []
     index = 0
-    for searchResult in word_search_result:
-        result.insert(index,'{"songName":"'+searchResult.document.name +'", "artist":"'+searchResult.document.artist + '", "index_in_document":"'+str(searchResult.index_in_document)+'"}')
-        index += 1
+    for search_result in word_search_result:
+        current_result = '{"songName":"' + search_result.document.name + '", "artist":"' + search_result.document.artist + '", "index_in_document":"' + str(
+            search_result.index_in_document) + '"}'
+        if not song_in_result(current_result, result):
+            result.insert(index, current_result)
+            index += 1
     return result
 
 def find_or_words(search_query_array): #function for search N or words
@@ -140,7 +143,23 @@ def find_or_words(search_query_array): #function for search N or words
         word = word.lower()
         word = Word.objects.filter(wordStr=word)
         word_search_result = Index_of_word.objects.filter(word=word)
-        for searchResult in word_search_result:
-            result.insert(index,'{"songName":"' + searchResult.document.name + '", "artist":"' + searchResult.document.artist + '", "index_in_document":"' + str(searchResult.index_in_document) + '"}')
-            index += 1
+        for search_result in word_search_result:
+            current_result = '{"songName":"' + search_result.document.name + '", "artist":"' + search_result.document.artist + '", "index_in_document":"' + str(search_result.index_in_document) + '"}'
+            if not song_in_result(current_result, result):
+                result.insert(index,current_result)
+                index += 1
     return result
+
+def find_and_words(search_query_array): #todo
+    result = find_one_word(search_query_array[0])
+    print result
+
+
+def song_in_result(search_result,results): #helper function to remove duplicates from result
+    parse_search_result = search_result.split('"')
+    for result in results:
+        parse_result = result.split('"')
+        if parse_search_result[3] == parse_result[3]:
+            if parse_search_result[7] == parse_result[7]:
+                return True
+    return False
