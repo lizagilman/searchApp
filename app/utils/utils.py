@@ -134,6 +134,7 @@ def find_one_word(word):  #function for search one word
         if not song_in_result(current_result, result):
             result.insert(index, current_result)
             index += 1
+    print type(result), len(result), result
     return result
 
 def find_or_words(search_query_array): #function for search N or words
