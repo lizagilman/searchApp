@@ -129,14 +129,16 @@ def find_one_word(word):  #function for search one word
     result = []
     index = 0
     for search_result in word_search_result:
-        current_result = '{"songName":"' + search_result.document.name + '", "artist":"' + search_result.document.artist + '", "index_in_document":"' + str(
-            search_result.index_in_document) + '"}'
+       # current_result = '{"songName":"' + search_result.document.name + '", "artist":"' + search_result.document.artist + '", "index_in_document":"' + str(
+       #     search_result.index_in_document) + '"}'
+        current_result = '{"songName":"' + search_result.document.name + '", "artist":"' + search_result.document.artist + '"}'
         if not song_in_result(current_result, result):
             result.insert(index, current_result)
             index += 1
     print type(result), len(result), result
     return result
 
+"""
 def find_or_words(search_query_array): #function for search N or words
     result = []
     index = 0
@@ -150,11 +152,7 @@ def find_or_words(search_query_array): #function for search N or words
                 result.insert(index,current_result)
                 index += 1
     return result
-
-def find_and_words(search_query_array): #todo
-    result = find_one_word(search_query_array[0])
-    print result
-
+"""
 
 def song_in_result(search_result,results): #helper function to remove duplicates from result
     parse_search_result = search_result.split('"')
@@ -164,3 +162,23 @@ def song_in_result(search_result,results): #helper function to remove duplicates
             if parse_search_result[7] == parse_result[7]:
                 return True
     return False
+
+
+def find_and_words(word_one,word_two):
+    word_one_set = set(word_one)
+    word_two_set = set(word_two)
+    word_one_set.intersection_update(word_two_set)
+    return list(word_one_set)
+
+
+def find_or_words(word_one,word_two):
+    word_one_set = set(word_one)
+    word_two_set = set(word_two)
+    word_one_set.update(word_two_set)
+    return list(word_one_set)
+
+def find_not_words(word_one,word_two):
+    word_one_set = set(word_one)
+    word_two_set = set(word_two)
+    word_one_set.difference_update(word_two_set)
+    return list(word_one_set)
