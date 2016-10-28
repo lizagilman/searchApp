@@ -17,36 +17,38 @@ class SearchQuery(APIView):
             search_task = []
             index = 0
             index_task = 0
+            print "search_query_array:"
+            print search_query_array
             while(index < len(search_query_array)):
                 print search_query_array[index]
                 if(index == 0):
                     if(search_query_array[index + 1] == "OR"):
                         search_task.insert(index_task,search_query_array[index] + " OR " + search_query_array[index + 2])
-                        index_task += 2
+                        index += 3
                     elif(search_query_array[index + 1] == "NOT"):
                         search_task.insert(index_task,search_query_array[index] + " NOT " + search_query_array[index + 2])
-                        index_task += 2
+                        index += 3
                     elif(search_query_array[index + 1] == "AND"):
                         search_task.insert(index_task,search_query_array[index] + " AND " + search_query_array[index + 2])
-                        index_task += 2
+                        index += 3
                     else:
-                        search_task.insert(index_task,search_query_array[index] + " AND " + search_query_array[index + 1])
-                        index_task += 1
+                        search_task.insert(index_task,search_query_array[index] + " OR " + search_query_array[index + 1])
+                        index += 2
                 else:
                     if (search_query_array[index] == "OR"):
                         search_task.insert(index_task,"# OR " + search_query_array[index + 1])
-                        index_task += 2
+                        index += 2
                     elif (search_query_array[index] == "NOT"):
                         search_task.insert(index_task,"# NOT " + search_query_array[index + 1])
-                        index_task += 2
+                        index += 2
                     elif (search_query_array[index] == "AND"):
                         search_task.insert(index_task,"# AND " + search_query_array[index + 1])
-                        index_task += 2
+                        index += 2
                     else:
-                        search_task.insert(index_task,search_query_array[index] + " AND " + search_query_array[index])
-                        index_task += 2
-                index += 1
-            print search_task
+                        search_task.insert(index_task,"# OR " + search_query_array[index])
+                        index += 1
+                index_task += 1
+                print search_task
             word_one =  find_one_word(search_query_array[0])
             word_two =  find_one_word(search_query_array[1])
             result = find_and_words(word_one,word_two)
