@@ -135,24 +135,7 @@ def find_one_word(word):  #function for search one word
         if not song_in_result(current_result, result):
             result.insert(index, current_result)
             index += 1
-    print type(result), len(result), result
     return result
-
-"""
-def find_or_words(search_query_array): #function for search N or words
-    result = []
-    index = 0
-    for word in search_query_array:
-        word = word.lower()
-        word = Word.objects.filter(wordStr=word)
-        word_search_result = Index_of_word.objects.filter(word=word)
-        for search_result in word_search_result:
-            current_result = '{"songName":"' + search_result.document.name + '", "artist":"' + search_result.document.artist + '", "index_in_document":"' + str(search_result.index_in_document) + '"}'
-            if not song_in_result(current_result, result):
-                result.insert(index,current_result)
-                index += 1
-    return result
-"""
 
 def song_in_result(search_result,results): #helper function to remove duplicates from result
     parse_search_result = search_result.split('"')
