@@ -1,7 +1,50 @@
-p {
-    color: red;
+#wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-h1 {
-    color: blue;
+
+
+h1{
+    font-family: 'Lobster', cursive !important;
+    font-size: 80px !important;
+    color: blue !important;
 }
+
+input {
+    width: 30% !important;
+    height: 40px !important;
+}
+
+.result {
+    width: 50%;
+    left: 3%;
+    position: relative;
+    top: 5%;
+    padding-bottom: 1%;
+}
+
+
+a {
+    text-decoration: underline !important;
+}
+
+#resultsHeadline {
+    left: 3%;
+    position: relative;
+    padding-bottom: 2%;
+    font-weight: bold;
+}
+
+
+
+
+
+
+
+
+
+
+
+

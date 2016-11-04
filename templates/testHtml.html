@@ -1,12 +1,38 @@
-
 <html>
     <head>
-
-
+        <meta charset="UTF-8">
+        <title>Search App</title>
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+        {% include 'javascripts.html' %}
+        {% include 'stylesheets.html' %}
     </head>
     <body>
+        <div ng-app="myApp" ng-controller="myCtrl">
 
-        <p>Hello world</p>
+                <! --
+                Add url:<input type="text" ng-model="urlToAdd">   <button ng-click="addUrlToDb()">Add url</button>
+                <br>
+                Search: <input type="text" ng-model="searchStr">  <button ng-click="search()">Search!</button>
+            <br>
+            Result :
+                <div ng-repeat="result in searchResult track by $index">
+                    {$ result.songName $}
+                    {$ result.artist $}
+                    {$ result.index_in_document $}
+                </div>
+                -->
+        </div>
+
+
+        <div class="result">
+        <h3><a href="#">Queen - We Will Rock You</a></h3>
+        <span>
+        some text some text some text some text some text some text some text some text some text some text
+        some text some text some text some text some text some text some text some text some text some text
+        some text some text some text some text some text some text some text some text some text some text
+            </span>
+    </div>
+
 
     </body>
 </html>

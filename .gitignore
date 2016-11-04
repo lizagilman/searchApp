@@ -274,3 +274,4 @@ gen
 
 .eslintignore
 *.sqlite3
+app/utils/test.py

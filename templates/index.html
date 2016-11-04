@@ -1,24 +1,41 @@
+{% load staticfiles %}
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Search App</title>
-        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
-        {% include 'javascripts.html' %}
-        {% include 'stylesheets.html' %}
-    </head>
-    <body>
-        <div ng-app="myApp" ng-controller="myCtrl">
-            Add url:<input type="text" ng-model="urlToAdd">   <button ng-click="addUrlToDb()">Add url</button>
-            <br>
-            Search: <input type="text" ng-model="searchStr">  <button ng-click="search()">Search!</button>
+<head>
+    <meta charset="UTF-8">
+    <title>Search App</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    {% include 'javascripts.html' %}
+    {% include 'stylesheets.html' %}
+</head>
+<body>
+<div ng-app="myApp" ng-controller="myCtrl">
+    <div id="wrapper">
+        <h1>SongSearch</h1>
+        <br><br>
+        <input id="searchInput" ng-model="searchStr" placeholder="search existing songs" type="text" class="ng-valid ng-touched form-control ng-dirty ng-valid-parse">
+        <h3>or</h3>
         <br>
-        Result :
-            <div ng-repeat="result in searchResult track by $index">
-                {$ result.songName $}
-                {$ result.artist $}
-                {$ result.index_in_document $}
-            </div>
+        <input id="addSongInput"  ng-model="urlToAdd" placeholder="add new song" type="text" class="form-control">
+        <br>
+        <button type="button" class="btn btn-primary" ng-click="go()">Go</button>
+        <br><br>
+        <div ng-if="loading">
+            <img src={% static 'src/images/default.gif' %}>
         </div>
+    </div>
 
-    </body>
+    <h2 id="resultsHeadline"></h2>
+    <div class="result" ng-repeat="result in searchResult track by $index">
+        <h3><a href="#">{$ result.artist $} - {$ result.songName $}</a></h3>
+        <span>
+        some text some text some text some text some text some text some text some text some text some text
+        some text some text some text some text some text some text some text some text some text some text
+        some text some text some text some text some text some text some text some text some text some text
+        </span>
+    </div>
+
+
+
+</div>
+</body>
 </html>
