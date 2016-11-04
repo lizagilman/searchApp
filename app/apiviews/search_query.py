@@ -8,6 +8,7 @@ import pprintpp
 class SearchQuery(APIView):
     def get(self, request):
         query = request.query_params['query'] # state AND obvious
+        print "query:"+ query
         search_query_array = query.split(' ')
         query_number_of_words = len(search_query_array)
         result = []
@@ -20,6 +21,29 @@ class SearchQuery(APIView):
             index_task = 0
             print "search_query_array:"
             print search_query_array
+
+            openBrackets = []
+            closeBrackets = []
+            openBracketsIndex = 0
+            closeBracketsIndex = 0
+            count = 0
+            while(openBracketsIndex != -1):
+                openBracketsIndex = query.find("(",openBracketsIndex)
+                if(openBracketsIndex != -1):
+                    openBrackets.insert(count,openBracketsIndex)
+                    openBracketsIndex += 1
+                    count += 1
+            count = 0
+            while (closeBracketsIndex != -1):
+                closeBracketsIndex = query.find(")", closeBracketsIndex)
+                if (closeBracketsIndex != -1):
+                    closeBrackets.insert(count, closeBracketsIndex)
+                    closeBracketsIndex += 1
+                    count += 1
+
+            print openBrackets
+            print closeBrackets
+
             while(index < len(search_query_array)):
                 print search_query_array[index]
                 if(index == 0):
