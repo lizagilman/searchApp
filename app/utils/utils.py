@@ -127,7 +127,7 @@ def find_one_word(word):  #function for search one word
     word = Word.objects.filter(wordStr=word)
     word_search_result = Index_of_word.objects.filter(word=word)
     results = []
-    ids_of_songs_in_results = []
+    ids_of_songs_in_results = [] # helper array to check if document already saved to final results
     for search_result in word_search_result:
         if search_result.document.id not in ids_of_songs_in_results:
             current_result = {
@@ -139,12 +139,12 @@ def find_one_word(word):  #function for search one word
                               }
             results.append(current_result)
             ids_of_songs_in_results.append(current_result['id'])
-        else:
+        else: # document already added before
             for result in results:
                 if(result['id']==search_result.document.id):
-                    result['indexes'].append(search_result.index_in_document)
+                    result['indexes'].append(search_result.index_in_document) # add index of word to indexes array of result
                     break
-    return results
+    return results #list of dictionaries
 
 
 # def song_in_result(search_result,results): #helper function to remove duplicates from result
