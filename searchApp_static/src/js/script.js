@@ -10,19 +10,24 @@ app.controller('myCtrl', function ($scope,$http) {
     $scope.loading = false;
 
     $scope.search = function (query) {
+        $('#results').html("");
+        $('#resultsHeadline').html("");
         $scope.loading=true;
-
         $http.get("../search_query/?query="+$scope.searchStr).success(function (data) {
-            $('#resultsHeadline').html("Search results for: "+query);
             console.log(data);
             $scope.loading=false;
+            $('#resultsHeadline').html("Search results for: "+query);
             $scope.searchResult = [];
             var searchResults = data;
             console.log(searchResults);
             angular.forEach(searchResults, function (searchResult) {
                 //console.log(searchResult);
-                searchResult.text = searchResult.text.substring(0,300);
+                var bolded_text = $scope.makeBold(searchResult.text, query.split(" "));
+                searchResult.text = bolded_text.substring(0,300);
                 $scope.searchResult.push(searchResult);
+
+                $('#results').append(" <div class='result'><h3><a href='#'>" + searchResult.artist + " - " + searchResult.songName + "</a></h3><span>"+
+                                        searchResult.text+" </span></div>");
             });
         });
     };
@@ -39,6 +44,10 @@ app.controller('myCtrl', function ($scope,$http) {
             $scope.loading = false;
         });
     };
+
+    $scope.makeBold = function (input, wordsToBold){
+        return input.replace(new RegExp('(\\b)(' + wordsToBold.join('|') + ')(\\b)','ig'), '$1<b>$2</b>$3');
+    }
 
 
     $scope.go = function(){
