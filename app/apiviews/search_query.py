@@ -49,8 +49,20 @@ class SearchQuery(APIView):
                         search_sub_query = subQuery.split(' ')
                         search_sub_query = clear_list_from_space(search_sub_query)
                         bracketsResult.insert(index,search_query(search_sub_query))
+                        print bracketsResult
+                        strDif =  closeBrackets[index] - openBrackets[index]
+                        print "query before:"
+                        print query
+                        query = query.replace(query[openBrackets[index]:closeBrackets[index] + 1], '$')
+                        print "index:"
+                        print index
+                        print len(openBrackets)
                         index += 1
-                    index = 0
+                        if(index < len(openBrackets)):
+                            openBrackets[index] = openBrackets[index] - strDif
+                            closeBrackets[index ] = closeBrackets[index] + strDif
+                        print "query after:"
+                        print query
                     result = search_query(search_query_array)
             else:
                 result = "SEARCH_SYNTAX_ERROR"
@@ -65,7 +77,7 @@ def search_query(search_query_array):
     index = 0
     index_task = 0
     while (index < len(search_query_array)):
-        print search_query_array[index]
+      #  print search_query_array[index]
         if (index == 0):
             if (search_query_array[index + 1] == "OR"):
                 search_task.insert(index_task, search_query_array[index] + " OR " + search_query_array[index + 2])
@@ -93,12 +105,12 @@ def search_query(search_query_array):
                 search_task.insert(index_task, "# OR " + search_query_array[index])
                 index += 1
         index_task += 1
-        print search_task
+       # print search_task
     index = 0
     print "searching...."
     for search_step in search_task:
         search = search_step.split(' ')
-        print search
+      #  print search
         if (search[0] == "#"):
             if (search[1] == "OR"):
                 result = find_or_words(result, find_one_word(search[2]))
