@@ -31,6 +31,6 @@ urlpatterns = [
     url(r'get_documents/', GetDocumentsContainingWords.as_view(),name='get_documents'),
     url(r'add_new_doc/', AddNewDocument.as_view(),name='add_new_doc'),
     url(r'cleaning_db/', CleaningDb.as_view(), name='cleaning_db'),
-    url(r'search_query/',SearchQuery.as_view(), name='seartch_query'),
+    url(r'search_query/',SearchQuery.as_view(), name='search_query'),
 
 ]

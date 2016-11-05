@@ -26,11 +26,9 @@
 
     <h2 id="resultsHeadline"></h2>
     <div class="result" ng-repeat="result in searchResult track by $index">
-        <h3><a href="#">{$ result.artist $} - {$ result.songName $}</a></h3>
+        <h3><a href="#">{$ result.artist $} - {$ result.songName $}  {$ result.index_in_document $}</a></h3>
         <span>
-        some text some text some text some text some text some text some text some text some text some text
-        some text some text some text some text some text some text some text some text some text some text
-        some text some text some text some text some text some text some text some text some text some text
+        {$ result.text $}
         </span>
     </div>
 

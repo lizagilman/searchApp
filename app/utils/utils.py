@@ -81,14 +81,14 @@ def add_song_to_db(document):
     #add document to Document table if it not exsist
     document_to_add =  Document.objects.filter(name=document['name'], artist=document['artist'],text=document['text'])
     if(document_to_add.count() == 0):
-      document_to_add = Document(name=document['name'], artist=document['artist'],text=document['text'],is_deleted=False)
-      document_to_add.save()
-      text = document['text']
-      words = text.split()
-      index = 0
-      for word in words:
-          index += add_word_to_db(word,document_to_add,index)
-      print "Document added succeed"
+        document_to_add = Document(name=document['name'], artist=document['artist'],text=document['text'],is_deleted=False)
+        document_to_add.save()
+        text = document['text']
+        words = text.split()
+        index = 0
+        for word in words:
+            index += add_word_to_db(word,document_to_add,index)
+        print "Document added succeed"
     else:
         # todo put is_deleted to False
         print "Document already exist"
@@ -126,25 +126,35 @@ def find_one_word(word):  #function for search one word
     word = word.lower()
     word = Word.objects.filter(wordStr=word)
     word_search_result = Index_of_word.objects.filter(word=word)
-    result = []
-    index = 0
+    results = []
+    ids_of_songs_in_results = []
     for search_result in word_search_result:
-       # current_result = '{"songName":"' + search_result.document.name + '", "artist":"' + search_result.document.artist + '", "index_in_document":"' + str(
-       #     search_result.index_in_document) + '"}'
-        current_result = '{"songName":"' + search_result.document.name + '", "artist":"' + search_result.document.artist + '"}'
-        if not song_in_result(current_result, result):
-            result.insert(index, current_result)
-            index += 1
-    return result
+        if search_result.document.id not in ids_of_songs_in_results:
+            current_result = {
+                              "songName": search_result.document.name,
+                              "text": search_result.document.text,
+                              "indexes": [search_result.index_in_document],
+                              "artist": search_result.document.artist,
+                              "id": search_result.document.id
+                              }
+            results.append(current_result)
+            ids_of_songs_in_results.append(current_result['id'])
+        else:
+            for result in results:
+                if(result['id']==search_result.document.id):
+                    result['indexes'].append(search_result.index_in_document)
+                    break
+    return results
 
-def song_in_result(search_result,results): #helper function to remove duplicates from result
-    parse_search_result = search_result.split('"')
-    for result in results:
-        parse_result = result.split('"')
-        if parse_search_result[3] == parse_result[3]:
-            if parse_search_result[7] == parse_result[7]:
-                return True
-    return False
+
+# def song_in_result(search_result,results): #helper function to remove duplicates from result
+#     parse_search_result = search_result.split('"')
+#     for result in results:
+#         parse_result = result.split('"')
+#         if parse_search_result[3] == parse_result[3]:
+#             if parse_search_result[7] == parse_result[7]:
+#                 return True
+#     return False
 
 
 def find_and_words(word_one,word_two):

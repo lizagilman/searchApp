@@ -4,16 +4,18 @@ from app.models import Document, Index_of_word
 from django.core import serializers
 from app.utils.utils import *
 import pprintpp
+from django.http import JsonResponse
 
 class SearchQuery(APIView):
+    print "searching request start"
     def get(self, request):
-        query = request.query_params['query'] # state AND obvious
+        query = request.query_params['query']
         search_query_array = query.split(' ')
         query_number_of_words = len(search_query_array)
         result = []
         if (query_number_of_words == 1):
-            search = find_one_word(query)
-            result = json.dumps(search)
+            search = find_one_word(query) #list of dictionaries
+            #result = json.dumps(search)
         else:
             search_task = []
             index = 0
@@ -70,7 +72,7 @@ class SearchQuery(APIView):
                     elif (search[1] == "NOT"):
                         result = find_not_words(find_one_word(search[0]), find_one_word(search[2]))
                 print result
+            print result
             result = json.dumps(result)
-        return Response(result)
-
-
+        return JsonResponse(search, safe=False)
+        #return Response(result)

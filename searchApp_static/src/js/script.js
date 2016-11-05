@@ -11,17 +11,18 @@ app.controller('myCtrl', function ($scope,$http) {
 
     $scope.search = function (query) {
         $scope.loading=true;
-        $('#resultsHeadline').html("Search results for: "+query);
-        $http.get("../search_query/?query="+$scope.searchStr).success(function (data) {
 
+        $http.get("../search_query/?query="+$scope.searchStr).success(function (data) {
+            $('#resultsHeadline').html("Search results for: "+query);
             console.log(data);
             $scope.loading=false;
             $scope.searchResult = [];
-            var searchResults = JSON.parse(data);
+            var searchResults = data;
             console.log(searchResults);
             angular.forEach(searchResults, function (searchResult) {
-                console.log(searchResult);
-                $scope.searchResult.push(JSON.parse(searchResult));
+                //console.log(searchResult);
+                searchResult.text = searchResult.text.substring(0,300);
+                $scope.searchResult.push(searchResult);
             });
         });
     };
