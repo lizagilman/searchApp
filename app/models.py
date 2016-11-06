@@ -48,7 +48,7 @@ class Index_of_word(models.Model):
         return '%s' % (self.word)
 
 
-class stop_word(models.Model):
+class Stop_word(models.Model):
     stop_word=models.CharField(max_length=100, null=True)
 
 

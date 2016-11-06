@@ -12,6 +12,12 @@ import yaml
 class SearchQuery(APIView):
     def get(self, request):
         query = request.query_params['query'] # state AND obvious
+        print query
+        stopwords = ['what', 'who', 'is', 'a', 'at', 'is', 'he']
+        querywords = query.split()
+        resultwords = [word for word in querywords if word.lower() not in stopwords]
+        query = ' '.join(resultwords)
+        print query
       #  print "query:"+ query
         search = ""
         search_query_array = query.split(' ')
