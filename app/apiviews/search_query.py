@@ -8,7 +8,7 @@ import pprintpp
 class SearchQuery(APIView):
     def get(self, request):
         query = request.query_params['query'] # state AND obvious
-        print "query:"+ query
+      #  print "query:"+ query
         search_query_array = query.split(' ')
         query_number_of_words = len(search_query_array)
         result = []
@@ -17,8 +17,8 @@ class SearchQuery(APIView):
             search = find_one_word(query)
             result = json.dumps(search)
         else:
-            print "search_query_array:"
-            print search_query_array
+      #      print "search_query_array:"
+       #     print search_query_array
 
             openBrackets = []
             closeBrackets = []
@@ -66,10 +66,9 @@ class SearchQuery(APIView):
                     result = search_query_final(query,bracketsResult)
             else:
                 result = "SEARCH_SYNTAX_ERROR"
-            print result
+           # print result
             result = json.dumps(result)
         return Response(result)
-
 
 def search_query(search_query_array):
     result = []
@@ -127,8 +126,6 @@ def search_query(search_query_array):
                 result = find_not_words(find_one_word(search[0]), find_one_word(search[2]))
     return  result
 
-
-
 def search_query_final(query,bracketsResult):
     print "bracketsResult:"
     print bracketsResult
@@ -137,8 +134,7 @@ def search_query_final(query,bracketsResult):
     index = 0
     index_task = 0
     bracket_index = 0
-    print "140LINE:"
-    print query
+ #   print query
     search_query_array = query.split(' ')
     while (index < len(search_query_array)):
       #  print search_query_array[index]
@@ -169,10 +165,10 @@ def search_query_final(query,bracketsResult):
                 search_task.insert(index_task, "# OR " + search_query_array[index])
                 index += 1
         index_task += 1
-    print "search_task:"
-    print search_task
+   # print "search_task:"
+ #   print search_task
     index = 0
-    print "searching...."
+  #  print "searching...."
     for search_step in search_task:
         search = search_step.split(' ')
       #  print search
@@ -183,14 +179,14 @@ def search_query_final(query,bracketsResult):
                 result = find_and_words(result, find_one_word(search[2]))
             elif (search[1] == "NOT"):
                 result = find_not_words(result, find_one_word(search[2]))
-        elif(search[0] == "$" and search[2] == "2"):
+        elif(search[0] == "$" and search[2] == "$"):
             if (search[1] == "OR"):
                 result = find_or_words(bracketsResult[index], bracketsResult[index + 1])
             elif (search[1] == "AND"):
                 result = find_and_words(bracketsResult[index], bracketsResult[index + 1])
             elif (search[1] == "NOT"):
                 result = find_not_words(bracketsResult[index], bracketsResult[index + 1])
-            bracket_index +=2
+            bracket_index += 2
         elif(search[0] == "$"):
             if (search[1] == "OR"):
                 result = find_or_words(result, bracketsResult[index])
@@ -198,6 +194,16 @@ def search_query_final(query,bracketsResult):
                 result = find_and_words(result, bracketsResult[index])
             elif (search[1] == "NOT"):
                 result = find_not_words(result, bracketsResult[index])
+            bracket_index += 1
+        elif (search[2] == "$"):
+           # print search
+            if (search[1] == "OR"):
+                result = find_or_words(result, bracketsResult[index])
+            elif (search[1] == "AND"):
+                result = find_and_words(result, bracketsResult[index])
+            elif (search[1] == "NOT"):
+                result = find_not_words(result, bracketsResult[index])
+         #   print bracketsResult[index]
             bracket_index += 1
         else:
             if (search[1] == "OR"):

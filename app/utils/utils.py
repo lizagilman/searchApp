@@ -131,10 +131,11 @@ def find_one_word(word):  #function for search one word
     for search_result in word_search_result:
        # current_result = '{"songName":"' + search_result.document.name + '", "artist":"' + search_result.document.artist + '", "index_in_document":"' + str(
        #     search_result.index_in_document) + '"}'
-        current_result = '{"songName":"' + search_result.document.name + '", "artist":"' + search_result.document.artist + '"}'
-        if not song_in_result(current_result, result):
-            result.insert(index, current_result)
-            index += 1
+       if(search_result.document.is_deleted == False):
+            current_result = '{"songName":"' + search_result.document.name + '", "artist":"' + search_result.document.artist + '"}'
+            if not song_in_result(current_result, result):
+                result.insert(index, current_result)
+                index += 1
     return result
 
 def song_in_result(search_result,results): #helper function to remove duplicates from result
@@ -165,3 +166,13 @@ def find_not_words(word_one,word_two):
     word_two_set = set(word_two)
     word_one_set.difference_update(word_two_set)
     return list(word_one_set)
+
+def chnage_song_delete_status(songName,artistName):
+    song = Document.objects.filter(name=songName, artist=artistName)
+    song = song[0]
+    if(song.is_deleted == False):
+        song.is_deleted = True
+    else:
+        song.is_deleted = False
+    song.save()
+

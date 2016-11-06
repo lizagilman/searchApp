@@ -8,6 +8,7 @@ from app.apiviews.get_documents_containing_words import GetDocumentsContainingWo
 from app.apiviews.add_new_document import AddNewDocument
 from app.apiviews.cleaning_db import CleaningDb
 from app.apiviews.search_query import SearchQuery
+from  app.apiviews.change_delete_status import ChangeDeleteStatus
 from app.views import IndexView
 from app import views
 
@@ -32,5 +33,6 @@ urlpatterns = [
     url(r'add_new_doc/', AddNewDocument.as_view(),name='add_new_doc'),
     url(r'cleaning_db/', CleaningDb.as_view(), name='cleaning_db'),
     url(r'search_query/',SearchQuery.as_view(), name='seartch_query'),
+    url(r'change_delete_status/', ChangeDeleteStatus.as_view(), name='change_delete_status'),
 
 ]
