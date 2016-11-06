@@ -58,7 +58,7 @@ def getSong(url):
     song_end = text.find("Submit Corrections\nVisit www.azlyrics.com for these lyrics.")
     text = text[:song_end]
     text = text.lower()
-    return {'name': song_name, 'artist': artist, 'text': text}
+    return {'name': song_name, 'artist': artist, 'text': str(text)}
 
 
 def is_in_song(song, word):
@@ -122,6 +122,7 @@ def word_need_to_clean(word,start):
     else:
         return False
 
+
 def find_one_word(word):  #function for search one word
     word = word.lower()
     word = Word.objects.filter(wordStr=word)
@@ -129,13 +130,25 @@ def find_one_word(word):  #function for search one word
     result = []
     index = 0
     for search_result in word_search_result:
-       # current_result = '{"songName":"' + search_result.document.name + '", "artist":"' + search_result.document.artist + '", "index_in_document":"' + str(
-       #     search_result.index_in_document) + '"}'
-       if(search_result.document.is_deleted == False):
-            current_result = '{"songName":"' + search_result.document.name + '", "artist":"' + search_result.document.artist + '"}'
-            if not song_in_result(current_result, result):
-                result.insert(index, current_result)
-                index += 1
+        # current_result = '{"songName":"' + search_result.document.name + '", "artist":"' + search_result.document.artist + '", "index_in_document":"' + str(
+        #     search_result.index_in_document) + '"}'
+
+        text_for_client = search_result.document.text.encode("utf-8")
+
+        text_for_client = str(text_for_client)
+
+        #current_result = '{"songName":"' + search_result.document.name + '", "artist":"' + search_result.document.artist + ',"text": ' + unicode(search_result.document.text) + ',"id":'+ str(search_result.document.id) +'}'
+        #current_result = '{"songName":"' + search_result.document.name + '", "artist": "' + search_result.document.artist + '", "text": ' + "abc" + ',"id":'+ str(search_re'sult.document.id) +'}'
+        current_result = '{"songName":"' + search_result.document.name + '", "artist": "' + search_result.document.artist + '", "text":" ' + search_result.document.text + '" , "id":'+ str(search_result.document.id) +'}'
+
+    #  "songName": search_result.document.name,
+    #                       "text": search_result.document.text,
+    #                     "indexes": [search_result.index_in_document],
+    #                      "artist": search_result.document.artist,
+    # "id": search_result.document.id
+        if not song_in_result(current_result, result):
+            result.insert(index, current_result)
+            index += 1
     return result
 
 def song_in_result(search_result,results): #helper function to remove duplicates from result
@@ -146,7 +159,6 @@ def song_in_result(search_result,results): #helper function to remove duplicates
             if parse_search_result[7] == parse_result[7]:
                 return True
     return False
-
 
 def find_and_words(word_one,word_two):
     word_one_set = set(word_one)

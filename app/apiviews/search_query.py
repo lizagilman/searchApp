@@ -4,22 +4,27 @@ from app.models import Document, Index_of_word
 from django.core import serializers
 from app.utils.utils import *
 import pprintpp
+from django.http import HttpResponse
+import ast
+import json
+import yaml
 
 class SearchQuery(APIView):
     def get(self, request):
         query = request.query_params['query'] # state AND obvious
       #  print "query:"+ query
+        search = ""
         search_query_array = query.split(' ')
         query_number_of_words = len(search_query_array)
         result = []
         bracketsResult = []
         if (query_number_of_words == 1):
             search = find_one_word(query)
-            result = json.dumps(search)
+          #  result = json.dumps(search)
         else:
       #      print "search_query_array:"
        #     print search_query_array
-
+            print "1"
             openBrackets = []
             closeBrackets = []
             openBracketsIndex = 0
@@ -40,7 +45,9 @@ class SearchQuery(APIView):
                     count += 1
         #    print closeBrackets
          #   print openBrackets
+            print "3"
             if(len(closeBrackets) == len(openBrackets)):
+                    print "4"
                     index = 0
                     while(index < len(openBrackets)):
                         indexOpenBrackets = openBrackets[index]
@@ -63,14 +70,19 @@ class SearchQuery(APIView):
                             closeBrackets[index ] = closeBrackets[index] + strDif
                        # print "query after:"
                       #  print query
-                    result = search_query_final(query,bracketsResult)
+                        print "10"
+                        search = search_query_final(query,bracketsResult)
             else:
-                result = "SEARCH_SYNTAX_ERROR"
+                data = "SEARCH_SYNTAX_ERROR"
            # print result
-            result = json.dumps(result)
-        return Response(result)
+            #result = json.dumps(result)
+        all_list = ','.join(search)
+        data = yaml.load(' {"res":' + '[' + all_list + ']' + '} ')
+        return HttpResponse(json.dumps(data), content_type="application/json")
+
 
 def search_query(search_query_array):
+    print "search_query"
     result = []
     search_task = []
     index = 0
@@ -124,6 +136,7 @@ def search_query(search_query_array):
                 result = find_and_words(find_one_word(search[0]), find_one_word(search[2]))
             elif (search[1] == "NOT"):
                 result = find_not_words(find_one_word(search[0]), find_one_word(search[2]))
+    print result
     return  result
 
 def search_query_final(query,bracketsResult):
@@ -212,6 +225,7 @@ def search_query_final(query,bracketsResult):
                 result = find_and_words(find_one_word(search[0]), find_one_word(search[2]))
             elif (search[1] == "NOT"):
                 result = find_not_words(find_one_word(search[0]), find_one_word(search[2]))
+    print result
     return  result
 
 
