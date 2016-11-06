@@ -130,22 +130,9 @@ def find_one_word(word):  #function for search one word
     result = []
     index = 0
     for search_result in word_search_result:
-        # current_result = '{"songName":"' + search_result.document.name + '", "artist":"' + search_result.document.artist + '", "index_in_document":"' + str(
-        #     search_result.index_in_document) + '"}'
-
         text_for_client = search_result.document.text.encode("utf-8")
-
         text_for_client = str(text_for_client)
-
-        #current_result = '{"songName":"' + search_result.document.name + '", "artist":"' + search_result.document.artist + ',"text": ' + unicode(search_result.document.text) + ',"id":'+ str(search_result.document.id) +'}'
-        #current_result = '{"songName":"' + search_result.document.name + '", "artist": "' + search_result.document.artist + '", "text": ' + "abc" + ',"id":'+ str(search_re'sult.document.id) +'}'
         current_result = '{"songName":"' + search_result.document.name + '", "artist": "' + search_result.document.artist + '", "text":" ' + search_result.document.text + '" , "id":'+ str(search_result.document.id) +'}'
-
-    #  "songName": search_result.document.name,
-    #                       "text": search_result.document.text,
-    #                     "indexes": [search_result.index_in_document],
-    #                      "artist": search_result.document.artist,
-    # "id": search_result.document.id
         if not song_in_result(current_result, result):
             if(search_result.document.is_deleted == False):
                 result.insert(index, current_result)
