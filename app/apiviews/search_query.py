@@ -7,15 +7,14 @@ import pprintpp
 from django.http import JsonResponse
 
 class SearchQuery(APIView):
-    print "searching request start"
     def get(self, request):
-        query = request.query_params['query']
+        query = request.query_params['query'] # state AND obvious
         search_query_array = query.split(' ')
         query_number_of_words = len(search_query_array)
         result = []
         if (query_number_of_words == 1):
-            search = find_one_word(query) #list of dictionaries
-            #result = json.dumps(search)
+            search = find_one_word(query)
+            result = json.dumps(search)
         else:
             search_task = []
             index = 0
