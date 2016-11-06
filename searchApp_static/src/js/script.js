@@ -3,12 +3,14 @@ var app = angular.module('myApp', []).config(function($interpolateProvider) {
     $interpolateProvider.endSymbol('$}');
 });
 
-app.controller('myCtrl', function ($scope,$http) {
+app.controller('myCtrl', function ($scope,$compile,$http) {
     $scope.searchStr = "";
-    //$scope.searchResult = [];
+    $scope.searchResult = [];
     $scope.urlToAdd = "";
     $scope.loading = false;
+    $scope.showResults = true;
     $scope.resultsHeadline = "";
+    $scope.modalPlainText = "Loading...";
 
     $scope.search = function (query) {
         $('#results').html("");
@@ -19,16 +21,26 @@ app.controller('myCtrl', function ($scope,$http) {
             $scope.loading=false;
             //$('#resultsHeadline').html("Search results for: "+query);
             $scope.resultsHeadline = "Search results for: " + query;
-            //$scope.searchResult = [];
+            $scope.searchResult = [];
             var searchResults = data;
             //console.log(searchResults);
             angular.forEach(searchResults, function (searchResult) {
-                var bolded_text = $scope.makeBold(searchResult.text, query.split(" "));
-                searchResult.text = bolded_text.substring(0,300);
-                //$scope.searchResult.push(searchResult);
-                $('#results').append(" <div class='result'><h3><a ng-click='displaySong()'>" + searchResult.artist + " - " + searchResult.songName + "</a></h3><span>"+
-                                        searchResult.text+" </span></div>");
+                //var bolded_text = $scope.makeBold(searchResult.text, query.split(" "));
+                //searchResult.text = bolded_text.substring(0,300);
+                searchResult.plainText = searchResult.text;
+                searchResult.text = searchResult.text.substring(0,300);
+                searchResult.artist = searchResult.artist.toUpperCase();
+                $scope.searchResult.push(searchResult);
+
+                // $('#results').append(" <div class='result'><h3><a ng-click='displaySong()'>" + searchResult.artist + " - " + searchResult.songName + "</a></h3><span>"+
+                //                         searchResult.text+" </span></div>");
+
             });
+            // $scope.searchResult.forEach( function (item, index) {
+            //     var bolded_text = $scope.makeBold(item.text, query.split(" "));
+            //     boldText = bolded_text.substring(0,300);
+            //     $('#text'+item.id).html(boldText);
+            //})
         });
     };
 
@@ -63,10 +75,15 @@ app.controller('myCtrl', function ($scope,$http) {
         }
     };
 
-    $scope.displaySong = function(){
-        console.log("ng click");
+    $scope.displaySong = function(id){
+        console.log("ng click", id);
+         $scope.searchResult.forEach( function (item, index) {
+                if (item.id == id){
+                    $scope.modalPlainText = item.plainText;
+                }
+            });
         //$scope.resultsHeadline = "atrist - name";
-        //$('#results').html("pure song text");
+        //$('#main').html("pure song text");
         // to do: put loading insted 67 & 68
         // $http.get("../getPlainSong/?query="+songId).success(function (data) {
         //         $('#results').html(data.plainText);
