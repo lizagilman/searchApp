@@ -56,10 +56,6 @@
 
 
 
-
-
-
-
     <div class="modal fade" id="displayAllSongsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -69,10 +65,11 @@
                 </div>
                 <div class="modal-body">
                     <div ng-repeat="song in allSongs track by $index">
-                        <h3>{$ $index+1 $}. {$ song.name $} -  {$ song.artist $}
-                            <button type="button" class="btn btn-primary" ng-click="displaySong(song.id)" data-toggle="modal" data-target="#modal{$ song.id $}">View</button>
-                            <button type="button" class="btn btn-danger" ng-click="deleteSong(song.id)">Delete</button>
-                        </h3>
+                        <div>
+                            <h3>{$ $index+1 $}. {$ song.name $} -  {$ song.artist $}</h3>
+                               <button type="button" class="btn btn-primary" ng-click="displaySong(song.id)" data-toggle="modal" data-target="#modal{$ song.id $}">View</button>
+                                <button type="button" class="btn btn-danger" ng-click="deleteSong(song.id)">Delete</button><br><br>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

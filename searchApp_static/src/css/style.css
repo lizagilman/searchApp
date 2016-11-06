@@ -43,9 +43,18 @@ a {
 
 
 #displayAllSongsModal button{
-        float: right !important;
+        /*float: right !important;*/
+        margin-right: 15px;
 }
 
+
+#displayAllSongsModal h3{
+        /*float: left !important;*/
+}
+
+#displayAllSongsModal .modal-dialog {
+    width: 800px;
+}
 
 
 
