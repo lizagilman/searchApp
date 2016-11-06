@@ -7,7 +7,6 @@ import pprintpp
 
 class ChangeDeleteStatus(APIView):
     def get(self, request):
-        songName = request.query_params['songName']
-        artistName = request.query_params['artistName']
-        chnage_song_delete_status(songName,artistName)
+        id = request.query_params['id']
+        chnage_song_delete_status(id)
         return Response("success")

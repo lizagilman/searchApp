@@ -147,8 +147,9 @@ def find_one_word(word):  #function for search one word
     #                      "artist": search_result.document.artist,
     # "id": search_result.document.id
         if not song_in_result(current_result, result):
-            result.insert(index, current_result)
-            index += 1
+            if(search_result.document.is_deleted == False):
+                result.insert(index, current_result)
+                index += 1
     return result
 
 def song_in_result(search_result,results): #helper function to remove duplicates from result
@@ -179,9 +180,11 @@ def find_not_words(word_one,word_two):
     word_one_set.difference_update(word_two_set)
     return list(word_one_set)
 
-def chnage_song_delete_status(songName,artistName):
-    song = Document.objects.filter(name=songName, artist=artistName)
+
+def chnage_song_delete_status(id):
+    song = Document.objects.filter(id=id)
     song = song[0]
+    print song
     if(song.is_deleted == False):
         song.is_deleted = True
     else:

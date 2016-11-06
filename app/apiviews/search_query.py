@@ -230,10 +230,6 @@ def search_query_final(query,bracketsResult):
     print result
     return  result
 
-
-
-
-
 def clear_list_from_space(list):
     for node in list:
         if(node == ''):
