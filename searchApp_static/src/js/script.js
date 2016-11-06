@@ -11,6 +11,7 @@ app.controller('myCtrl', function ($scope,$compile,$http) {
     $scope.showResults = true;
     $scope.resultsHeadline = "";
     $scope.modalPlainText = "Loading...";
+    $scope.allSongs=[];
 
     $scope.search = function (query) {
         $('#results').html("");
@@ -56,6 +57,32 @@ app.controller('myCtrl', function ($scope,$compile,$http) {
             $scope.loading = false;
         });
     };
+
+
+
+    $scope.getAllSongs = function(url){
+        //$scope.loading = true;
+        $scope.allSongs=[];
+        $http.get("../apis/documents/").success(function (data) {
+            var songs = data;
+            angular.forEach(songs, function (song) {
+                song.artist = song.artist.toUpperCase();
+                $scope.allSongs.push(song)
+            });
+
+            //$scope.loading = false;
+        });
+    };
+
+
+        $scope.deleteSong = function(id){
+        //$scope.loading = true;
+        console.log("clicked", id);
+        $http.get("../deleteSong/"+id).success(function (data) {
+
+        });
+    };
+
 
     $scope.makeBold = function (input, wordsToBold){
         return input.replace(new RegExp('(\\b)(' + wordsToBold.join('|') + ')(\\b)','ig'), '$1<b>$2</b>$3');

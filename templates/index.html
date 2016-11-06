@@ -18,7 +18,7 @@
         <input id="addSongInput" ng-model="urlToAdd" placeholder="add new song" type="text" class="form-control">
         <br>
         <button type="button" class="btn btn-primary" ng-click="go()">Go</button><br>
-        <button type="button" class="btn btn-primary" ng-click="displayAllSongs()" data-toggle="modal" data-target="#displayAllSongsModal">Display All Songs</button>
+        <button type="button" class="btn btn-primary" ng-click="getAllSongs()" data-toggle="modal" data-target="#displayAllSongsModal">Display All Songs</button>
         <br><br>
         <div ng-if="loading">
             <img src={% static 'src/images/default.gif' %}>
@@ -51,9 +51,6 @@
                     </div>
                 </div>
             </div>
-
-
-
         </div>
     </div>
 
@@ -63,22 +60,27 @@
 
 
 
-           <div class="modal fade" id="displayAllSongsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="myModalLabel">All Songs</h4>
-                        </div>
-                        <div class="modal-body">
-                            All songs here
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
+    <div class="modal fade" id="displayAllSongsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">All Songs</h4>
+                </div>
+                <div class="modal-body">
+                    <div ng-repeat="song in allSongs track by $index">
+                        <h3>{$ $index+1 $}. {$ song.name $} -  {$ song.artist $}
+                            <button type="button" class="btn btn-primary" ng-click="displaySong(song.id)" data-toggle="modal" data-target="#modal{$ song.id $}">View</button>
+                            <button type="button" class="btn btn-danger" ng-click="deleteSong(song.id)">Delete</button>
+                        </h3>
                     </div>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
             </div>
+        </div>
+    </div>
 
 
 
