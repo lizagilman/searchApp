@@ -74,6 +74,8 @@ class SearchQuery(APIView):
                         search = search_query_final(query,bracketsResult)
             else:
                 data = "SEARCH_SYNTAX_ERROR"
+            if(len(openBrackets) == 0):
+                 search = search_query_final(query, bracketsResult)
            # print result
             #result = json.dumps(result)
         all_list = ','.join(search)
