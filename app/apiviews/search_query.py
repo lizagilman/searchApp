@@ -1,6 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from app.models import Document, Index_of_word
+from app.models import Document, Index_of_word,Stop_word
 from django.core import serializers
 from app.utils.utils import *
 import pprintpp
@@ -13,10 +13,17 @@ class SearchQuery(APIView):
     def get(self, request):
         query = request.query_params['query'] # state AND obvious
         print query
-        stopwords = ['what', 'who', 'is', 'a', 'at', 'is', 'he']
+        stopwords = []
+        stopwords_array =  Stop_word.objects.all()
+        print stopwords_array
+        for word in stopwords_array:
+            print word.stop_word
+            stopwords.append(str(word.stop_word))
+        print stopwords
         querywords = query.split()
         resultwords = [word for word in querywords if word.lower() not in stopwords]
         query = ' '.join(resultwords)
+        query = query.replace('"', '')
         print query
       #  print "query:"+ query
         search = ""
