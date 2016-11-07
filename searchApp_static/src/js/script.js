@@ -40,9 +40,12 @@ app.controller('myCtrl', function ($scope,$compile,$http) {
                 $scope.searchResult.push(data.res[key]);
             }
             angular.forEach($scope.searchResult, function (obj) {
+                var bolded_text = $scope.makeBold(obj.text, query.split(" "));
+                //searchResult.text = bolded_text.substring(0,300);
                 obj.plainText = obj.plain_text;
                 obj.id = parseInt(obj.id);
-                obj.text = obj.text.substring(0,300);
+                //obj.text = obj.text.substring(0,300);
+                obj.text = bolded_text.substring(0,300);
                 obj.artist = obj.artist.toUpperCase();
             });
             //  console.log($scope.searchResult);
@@ -130,7 +133,6 @@ app.controller('myCtrl', function ($scope,$compile,$http) {
             }
             });
         } else {
-
             console.log("here from all songs");
             $scope.allSongs.forEach( function (item, index) {
             if (item.id == id){

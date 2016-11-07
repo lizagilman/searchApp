@@ -32,7 +32,7 @@
 
 
                 <h3 data-toggle="modal" data-target="#modalS{$ result.id $}"><a href="#" ng-click="displaySong(result.id, 2)">{$ result.artist $} - {$ result.songName $} </a></h3>
-                <span id="text{$ result.id $}"> {$ result.text $}  </span></div>
+                <span id="text{$ result.id $}"> <p ng-bind-html="result.text | trustAsHtml"></p>  </span></div>
 
 
             <div class="modal fade" id="modalS{$ result.id $}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -71,7 +71,7 @@
                             </div>
                             <div ng-if="!song.is_deleted">
                                 <h3>{$ $index+1 $}. {$ song.name $} -  {$ song.artist $}</h3>
-                                <button type="button" class="btn btn-primary" ng-click="displaySong(song.id, 2)" data-toggle="modal" data-target="#modal{$ song.id $}">View</button>
+                                <button type="button" class="btn btn-primary" ng-click="displaySong(song.id, 1)" data-toggle="modal" data-target="#modal{$ song.id $}">View</button>
                                 <button type="button" class="btn btn-danger" ng-click="deleteOrRestoreSong(song.id, 'd')">Delete</button><br><br>
                             </div>
 
