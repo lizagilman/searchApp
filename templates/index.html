@@ -66,10 +66,42 @@
                 <div class="modal-body">
                     <div ng-repeat="song in allSongs track by $index">
                         <div>
-                            <h3>{$ $index+1 $}. {$ song.name $} -  {$ song.artist $}</h3>
-                               <button type="button" class="btn btn-primary" ng-click="displaySong(song.id)" data-toggle="modal" data-target="#modal{$ song.id $}">View</button>
-                                <button type="button" class="btn btn-danger" ng-click="deleteSong(song.id)">Delete</button><br><br>
+                            <div ng-if="song.is_deleted">
+                                <h3 class="deleted">{$ $index+1 $}. {$ song.name $} -  {$ song.artist $}</h3>
+                                <button type="button" class="btn btn-info" ng-click="deleteOrRestoreSong(song.id, 'r')">Restore</button><br><br>
+                            </div>
+                            <div ng-if="!song.is_deleted">
+                                <h3>{$ $index+1 $}. {$ song.name $} -  {$ song.artist $}</h3>
+                                <button type="button" class="btn btn-primary" ng-click="displaySong(song.id)" data-toggle="modal" data-target="#modal{$ song.id $}">View</button>
+                                <button type="button" class="btn btn-danger" ng-click="deleteOrRestoreSong(song.id, 'd')">Delete</button><br><br>
+                            </div>
+
                         </div>
+
+
+
+
+                        <div class="modal fade" id="modal{$ song.id $}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="myModalLabel">{$ song.artist $} - {$ song.name $}</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        {$ modalPlainText $}
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -15,13 +15,6 @@ app.controller('myCtrl', function ($scope,$compile,$http) {
 
 
 
-
-
-
-
-
-
-
     $scope.search = function (query) {
         $('#results').html("");
         $scope.resultsHeadline = "";
@@ -46,26 +39,7 @@ app.controller('myCtrl', function ($scope,$compile,$http) {
         });
 
 
-
-        // $http.get("../search_query/?query="+$scope.searchStr).success(function (data) {
-        //     $scope.loading=false;
-        //     //$('#resultsHeadline').html("Search results for: "+query);
-        //     $scope.resultsHeadline = "Search results for: " + query;
-        //     $scope.searchResult = [];
-        //     var searchResults = data;
-        //     angular.forEach(searchResults, function (searchResult) {
-        //         searchResult.plainText = searchResult.text;
-        //         searchResult.text = searchResult.text.substring(0,300);
-        //         searchResult.artist = searchResult.artist.toUpperCase();
-        //         $scope.searchResult.push(searchResult);
-        //
-        //     });
-        //});
     };
-
-
-
-
 
 
     $scope.addUrlToDb = function(url){
@@ -98,11 +72,19 @@ app.controller('myCtrl', function ($scope,$compile,$http) {
     };
 
 
-    $scope.deleteSong = function(id){
+    $scope.deleteOrRestoreSong = function(id, p){
         //$scope.loading = true;
         console.log("clicked", id);
-        $http.get("../deleteSong/"+id).success(function (data) {
-
+        $http.get("../change_delete_status/?id="+id).success(function (data) {
+            if(data=="success"){
+                $scope.allSongs.forEach( function (item, index) {
+                    if (item.id == id){
+                        item.is_deleted = !(item.is_deleted);
+                    }
+                });
+            } else {
+                alert("Opperation failed");
+            }
         });
     };
 
