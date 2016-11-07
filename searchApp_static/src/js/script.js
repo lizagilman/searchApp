@@ -3,14 +3,11 @@ var app = angular.module('myApp', []).config(function($interpolateProvider) {
     $interpolateProvider.endSymbol('$}');
 });
 
-
 app.filter('trustAsHtml',['$sce', function($sce) {
   return function(text) {
     return $sce.trustAsHtml(text);
   };
 }]);
-
-
 
 app.controller('myCtrl', function ($scope,$compile,$http) {
     $scope.searchStr = "";
@@ -21,16 +18,11 @@ app.controller('myCtrl', function ($scope,$compile,$http) {
     $scope.resultsHeadline = "";
     $scope.modalPlainText = "<p>Loading...</p>";
     $scope.allSongs=[];
-
-
-
     $scope.search = function (query) {
         $('#results').html("");
         $scope.resultsHeadline = "";
         //$('#resultsHeadline').html("");
         $scope.loading=true;
-
-
         $http.get("../search_query/?query="+$scope.searchStr).success(function (data) {
             $scope.loading=false;
             //$('#resultsHeadline').html("Search results for: "+query);
@@ -50,11 +42,7 @@ app.controller('myCtrl', function ($scope,$compile,$http) {
             });
             //  console.log($scope.searchResult);
         });
-
-
     };
-
-
     $scope.addUrlToDb = function(url){
         $scope.loading = true;
         $http.get("../add_new_doc/?url="+url).success(function (data) {
@@ -67,9 +55,6 @@ app.controller('myCtrl', function ($scope,$compile,$http) {
             $scope.loading = false;
         });
     };
-
-
-
     $scope.getAllSongs = function(url){
         //$scope.loading = true;
         $scope.allSongs=[];
@@ -79,12 +64,8 @@ app.controller('myCtrl', function ($scope,$compile,$http) {
                 song.artist = song.artist.toUpperCase();
                 $scope.allSongs.push(song)
             });
-
-            //$scope.loading = false;
         });
     };
-
-
     $scope.deleteOrRestoreSong = function(id, p){
         //$scope.loading = true;
         console.log("clicked", id);
@@ -100,12 +81,9 @@ app.controller('myCtrl', function ($scope,$compile,$http) {
             }
         });
     };
-
-
     $scope.makeBold = function (input, wordsToBold){
         return input.replace(new RegExp('(\\b)(' + wordsToBold.join('|') + ')(\\b)','ig'), '$1<b>$2</b>$3');
     };
-
     $scope.go = function(){
         var searchQuery = $('#searchInput').val();
         var songUrlToAdd = $('#addSongInput').val();
@@ -119,9 +97,7 @@ app.controller('myCtrl', function ($scope,$compile,$http) {
             alert("Please insert input");
         }
     };
-
     $scope.displaySong = function(id, p){
-
         console.log("ng click", id, p);
         p = parseInt(p);
         id = parseInt(id);
@@ -141,11 +117,5 @@ app.controller('myCtrl', function ($scope,$compile,$http) {
             });
         }
         console.log($scope.modalPlainText);
-        //$scope.resultsHeadline = "atrist - name";
-        //$('#main').html("pure song text");
-        // to do: put loading insted 67 & 68
-        // $http.get("../getPlainSong/?query="+songId).success(function (data) {
-        //         $('#results').html(data.plainText);
-        // });
     };
 });

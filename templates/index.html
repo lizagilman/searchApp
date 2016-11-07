@@ -18,7 +18,10 @@
         <input id="addSongInput" ng-model="urlToAdd" placeholder="add new song" type="text" class="form-control">
         <br>
         <button type="button" class="btn btn-primary" ng-click="go()">Go</button><br>
-        <button type="button" class="btn btn-primary" ng-click="getAllSongs()" data-toggle="modal" data-target="#displayAllSongsModal">Display All Songs</button>
+        <div id="buttons">
+            <button id="allSongs" type="button" class="btn btn-primary" ng-click="getAllSongs()" data-toggle="modal" data-target="#displayAllSongsModal">Display All Songs</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#displayHelpModal">Help</button>
+        </div>
         <br><br>
         <div ng-if="loading">
             <img src={% static 'src/images/default.gif' %}>
@@ -27,7 +30,7 @@
 
     <div id="main">
 
-         <div ng-repeat="result in searchResult track by $index">
+        <div ng-repeat="result in searchResult track by $index">
             <div class='result' id="result{$ result.id $}">
 
 
@@ -77,9 +80,6 @@
 
                         </div>
 
-
-
-
                         <div class="modal fade" id="modal{$ song.id $}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
@@ -97,10 +97,6 @@
                             </div>
                         </div>
 
-
-
-
-
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -112,6 +108,30 @@
 
 
 
+
+    <div class="modal fade" id="displayHelpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Help</h4>
+                        </div>
+                        <div class="modal-body">
+                            To add new song, go to <a href="http://www.azlyrics.com/">www.azlyrics.com</a>, copy a song URL and paste it into "Add new song" field.<br>
+                            Example URL: http://www.azlyrics.com/lyrics/beatles/yesterday.html.<br>
+                            To view all songs, delete or restore a songs press "Display All Songs" button.<br>
+                            Search options:<br>
+                            Type your query in "search existing songs" field.<br>
+                            The query can contains one word, many words, parentaces, and boolean operations: AND, OR, NOT. <br>
+                            The use of the boolean operations is with the gollowing format (example): love AND story. <br>
+                            The use of brackets is with the following format (example, mind the whitespaces):<br> ( love OR story ) AND ( game ).
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
 
