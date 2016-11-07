@@ -8,6 +8,7 @@ class Document(models.Model):
     name = models.CharField(max_length=250, null=True)
     artist = models.CharField(max_length=250, null=True)
     text = models.CharField(max_length=5000000, null=True)
+    plain_text = models.CharField(max_length=5000000, null=True)
     words = models.ManyToManyField('Word',)
     is_deleted = models.BooleanField(default=False)
 

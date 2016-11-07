@@ -29,6 +29,9 @@ def getSong(url):
     soup = BeautifulSoup(html, "lxml")
     for script in soup(["script", "style"]):
         script.extract()    # rip it out
+    # get plain text
+    plain_text = soup.find("div", {
+        "class": "ringtone"}).nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling
     # get text
     text = soup.get_text()
     # break into lines and remove leading and trailing space on each
@@ -58,7 +61,8 @@ def getSong(url):
     song_end = text.find("Submit Corrections\nVisit www.azlyrics.com for these lyrics.")
     text = text[:song_end]
     text = text.lower()
-    return {'name': song_name, 'artist': artist, 'text': str(text)}
+
+    return {'name': song_name, 'artist': artist, 'text': str(text), 'plain_text': plain_text}
 
 
 def is_in_song(song, word):
@@ -81,7 +85,7 @@ def add_song_to_db(document):
     #add document to Document table if it not exsist
     document_to_add =  Document.objects.filter(name=document['name'], artist=document['artist'],text=document['text'])
     if(document_to_add.count() == 0):
-      document_to_add = Document(name=document['name'], artist=document['artist'],text=document['text'],is_deleted=False)
+      document_to_add = Document(name=document['name'], plain_text=document['plain_text'], artist=document['artist'],text=document['text'],is_deleted=False)
       document_to_add.save()
       text = document['text']
       words = text.split()
@@ -132,7 +136,7 @@ def find_one_word(word):  #function for search one word
     for search_result in word_search_result:
         text_for_client = search_result.document.text.encode("utf-8")
         text_for_client = str(text_for_client)
-        current_result = '{"songName":"' + search_result.document.name + '", "artist": "' + search_result.document.artist + '", "text":" ' + search_result.document.text + '" , "id":'+ str(search_result.document.id) +'}'
+        current_result = '{"songName":"' + search_result.document.name + '", "artist": "' + search_result.document.artist + '", "text":" ' + search_result.document.text + '" , "id":'+ str(search_result.document.id) + '", "plain_text":" ' + search_result.document.plain_text+'"}'
         if not song_in_result(current_result, result):
             if(search_result.document.is_deleted == False):
                 result.insert(index, current_result)

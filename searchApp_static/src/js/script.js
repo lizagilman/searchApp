@@ -3,6 +3,15 @@ var app = angular.module('myApp', []).config(function($interpolateProvider) {
     $interpolateProvider.endSymbol('$}');
 });
 
+
+app.filter('trustAsHtml',['$sce', function($sce) {
+  return function(text) {
+    return $sce.trustAsHtml(text);
+  };
+}]);
+
+
+
 app.controller('myCtrl', function ($scope,$compile,$http) {
     $scope.searchStr = "";
     $scope.searchResult = [];
@@ -10,7 +19,7 @@ app.controller('myCtrl', function ($scope,$compile,$http) {
     $scope.loading = false;
     $scope.showResults = true;
     $scope.resultsHeadline = "";
-    $scope.modalPlainText = "Loading...";
+    $scope.modalPlainText = "<p>Loading...</p>";
     $scope.allSongs=[];
 
 
@@ -31,7 +40,8 @@ app.controller('myCtrl', function ($scope,$compile,$http) {
                 $scope.searchResult.push(data.res[key]);
             }
             angular.forEach($scope.searchResult, function (obj) {
-                obj.plainText = obj.text;
+                obj.plainText = obj.plain_text;
+                obj.id = parseInt(obj.id);
                 obj.text = obj.text.substring(0,300);
                 obj.artist = obj.artist.toUpperCase();
             });
@@ -107,13 +117,28 @@ app.controller('myCtrl', function ($scope,$compile,$http) {
         }
     };
 
-    $scope.displaySong = function(id){
-        console.log("ng click", id);
-        $scope.searchResult.forEach( function (item, index) {
+    $scope.displaySong = function(id, p){
+
+        console.log("ng click", id, p);
+        p = parseInt(p);
+        id = parseInt(id);
+        if(p == 2){
+            console.log("here from search res");
+            $scope.searchResult.forEach( function (item, index) {
             if (item.id == id){
                 $scope.modalPlainText = item.plainText;
             }
-        });
+            });
+        } else {
+
+            console.log("here from all songs");
+            $scope.allSongs.forEach( function (item, index) {
+            if (item.id == id){
+                $scope.modalPlainText = item.plain_text;
+                }
+            });
+        }
+        console.log($scope.modalPlainText);
         //$scope.resultsHeadline = "atrist - name";
         //$('#main').html("pure song text");
         // to do: put loading insted 67 & 68
